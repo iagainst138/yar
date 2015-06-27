@@ -15,12 +15,13 @@ const (
 	ParamMatch = "([A-z_].*?)"	// regexp to extract variables from the URI
 )
 
-// contains a regexp and func to call
+// Route is a route that contains a regexp and func to call
 type Route struct {
 	Pattern *regexp.Regexp
 	Func    http.HandlerFunc
 }
 
+// ParameterRoute is a route that has variables in the URI
 type ParameterRoute struct {
 	Func     http.HandlerFunc
 	VarNames []string
@@ -44,6 +45,7 @@ func (pr *ParameterRoute) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	pr.Func(w, r)
 }
 
+// Routes is an array of routes that is sorted by regex length
 type Routes []*Route
 
 func (r Routes) Len() int {
@@ -58,6 +60,8 @@ func (r Routes) Less(i, j int) bool {
 	return len(r[i].Pattern.String()) > len(r[j].Pattern.String())
 }
 
+// Router handles HTTP requests and works out what functions
+// should be called based on matching
 type Router struct {
 	// a map of strings to handler functions
 	FixedRoutes map[string]http.HandlerFunc
@@ -72,6 +76,7 @@ type Router struct {
 	NotFound http.HandlerFunc
 }
 
+// NewRouter returns a Router
 func NewRouter() *Router {
 	return &Router{
 		FixedRoutes: map[string]http.HandlerFunc{},
@@ -163,6 +168,7 @@ func (rtr *Router) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	rtr.NotFound(w, r)
 }
 
+// Parse parses r.URL.Query to extract the stored variables
 func Parse(r *http.Request) (map[string]string, map[string][]string) {
 	m := map[string]string{}
 	for k, v := range r.URL.Query() {
