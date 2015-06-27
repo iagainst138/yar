@@ -1,7 +1,7 @@
 # yar
 Yet Another Router.
 
-Handles routing HTTP requests to functions based matching of static entries or regular expressions. Regular expressions are checked from longest to shortest.
+Handles routing HTTP requests to functions based on matching of static entries or regular expressions. Regular expressions are checked from longest to shortest.
 
 #### Example
 
