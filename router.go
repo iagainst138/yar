@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	ParamRegex = "<([A-z_]*?)>"	// regexp to match variable declarations
-	ParamMatch = "([A-z_].*?)"	// regexp to extract variables from the URI
+	ParamRegex = "<([A-z0-9_]*?)>"	// regexp to match variable declarations
+	ParamMatch = "([A-z0-9_].*?)"	// regexp to extract variables from the URI
 )
 
 // Route is a route that contains a regexp and func to call
